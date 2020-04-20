@@ -6,6 +6,8 @@ import {Swipeable} from 'react-native-gesture-handler'
 // import { NavigationContainer } from "@react-navigation/native";
 // import { createStackNavigator } from 'react-navigation-stack';
 
+import ContentLoader,{Rect} from 'react-content-loader/native'
+
 import {AppLoading} from 'expo'
 
 import * as Font from 'expo-font';
@@ -15,7 +17,7 @@ const {width, height} = Dimensions.get('window')
  function Home() {
 
 const [data,setData]=useState([])
-
+const [loading,isLoading]=useState(false)
 
 useEffect(()=>{
 
@@ -46,6 +48,8 @@ arr.push(obj)
 
 
 setData(arr)
+
+isLoading(true)
 
   })
 
@@ -88,7 +92,7 @@ Apple Top 100 Albumns
 
 
 {
- data.length>0&& data.map((i,k)=>(
+  loading ?( data.length>0&& data.map((i,k)=>(
 
 i &&(
     <View key={i.name} style={{marginBottom:-190,marginTop:3}} >
@@ -148,7 +152,65 @@ style={{height:height*0.2,width:width*0.2,position:"relative",bottom:height*0.13
 
 )
 
-  ))
+  ))):(
+
+
+ Array.from(Array(10).keys()).map((i,k)=>(
+
+
+
+
+<View key={i}  style={{marginLeft:width*0.09,marginTop:-height*0.04}} >
+
+<ContentLoader 
+speed={1}
+height={140}
+viewBox="0 0 380 70"
+backgroundColor={'#eee'}
+foregroundColor={'#999'}
+>
+<Rect x="0" y="0" rx="4" ry="3" width="70" height="65" />
+<Rect x="80" y="0" rx="4" ry="3" width="250" height="13" />
+<Rect x="80" y="30" rx="4" ry="3" width="170" height="13" />
+<Rect x="80" y="50" rx="4" ry="3" width="200" height="13" />
+
+</ContentLoader>  
+</View>
+
+
+
+
+
+//   <View key={i} style={styles.skeleton}>
+
+// <View style={styles.skeleton_avatar}>
+  
+//   </View>
+
+// <View>
+
+//   <View style={styles.skeleton_name}>
+  
+//   </View>
+  
+//   <View style={styles.skeleton_author}>
+  
+//   </View>
+  
+//   <View style={styles.skeleton_date}>
+  
+//   </View>
+  
+  
+//   </View>
+//   </View>
+
+
+))
+
+
+
+  )
 }
 
 
@@ -216,4 +278,46 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+   
+  skeleton:{
+    height:height*0.12,
+    width:width,
+    display:'flex',
+    flexDirection:'row'
+  },
+
+  skeleton_avatar:{
+    height:height*0.1,
+    width:width*0.2,
+    backgroundColor:'linear-gradient(to left, transparent,rgba(255,255,255,0.4),transparent)',
+    marginLeft:width*0.2,
+    marginTop:height*0.02
+  },
+
+  skeleton_name:{
+    height:height*0.025,
+    width:width*0.3,
+    backgroundColor:'linear-gradient(to left, transparent,rgba(255,255,255,0.4),transparent)',
+    marginLeft:width*0.1,
+    marginTop:height*0.02
+  },
+
+  skeleton_author:{
+    height:height*0.012,
+    width:width*0.15,
+    backgroundColor:'linear-gradient(to left, transparent,rgba(255,255,255,0.4),transparent)',
+    marginLeft:width*0.1,
+    marginTop:height*0.02
+  },
+
+  skeleton_date:{
+    height:height*0.018,
+    width:width*0.2,
+    backgroundColor:'linear-gradient(to left, transparent,rgba(255,255,255,0.4),transparent)',
+    marginLeft:width*0.1,
+    marginTop:height*0.02
+  }
+
+
+
 });
